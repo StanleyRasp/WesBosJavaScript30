@@ -58,17 +58,58 @@
     }
 
     .hand {
-      width: 50%;
+      --width: 50%;
+      width: var(--width);
       height: 6px;
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.1s;
+      transition-timing-function: cubic-bezier();
+    }
+
+    .second-hand{
+      height: 3px;
+      background-color: red;
+    }
+
+    .min-hand{
+      --width: 45%;
+      width: var(--width);
+      left: calc(50% - var(--width));
+      transform: rotate(30deg);
+    }
+
+    .hour-hand {
+      --width: 30%;
+      width: var(--width);
+      left: calc(50% - var(--width));
     }
 
   </style>
 
   <script>
+    function setClock() {
+      const hourHand = document.querySelector(".hour-hand")
+      const minHand = document.querySelector(".min-hand")
+      const secondHand = document.querySelector(".second-hand")
 
+      const curTime = new Date()
+
+      let hourAngle = 90 + ((curTime.getHours() % 12) * 30) % 360;
+      let minAngle = 90 + (curTime.getMinutes() * 6) % 360;
+      let secondAngle = 90 + (curTime.getSeconds() * 6) % 360;
+
+      console.log(hourHand, minHand, secondHand, hourAngle, minAngle, secondAngle)
+
+      hourHand.style.transform = `rotate(${hourAngle}deg)`;
+      minHand.style.transform = `rotate(${minAngle}deg)`;
+      secondHand.style.transform = `rotate(${secondAngle}deg)`;
+    }
+
+    setInterval(setClock, 1000)
 
   </script>
 </body>
